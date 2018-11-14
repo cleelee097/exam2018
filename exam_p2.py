@@ -12,7 +12,11 @@ def process_file(file_name):
     [["Mary","F",7065], ["Anna","F",2604],...]
 
     """
-    pass  # delete this line and replace with your code here
+    file = open(file_name, 'r')
+    name_list=[]
+    for name in file:
+        name_list.append(name.split(','))
+    return name_list
 
 
 def total_births(year):
@@ -21,8 +25,17 @@ def total_births(year):
     :param year: an integer, between 1880 and 2010
     :return: an integer, the total births of all the babies in that year
     """
-    pass  # delete this line and replace with your code here
 
+    if int(year) > 1879 and int(year) <2011:
+         names = process_file('babynames/yob' + str(year) + '.txt')
+         totalbirths=0
+         for i in names:
+             totalbirths +=float(i[2])
+         return totalbirths
+
+    else:
+        return ValueError
+          
 
 def proportion(name, gender, year):
     """
@@ -32,7 +45,13 @@ def proportion(name, gender, year):
     :param year: an integer, between 1880 and 2010
     :return: a floating number, the proportion of babies with the given name to total births in given year
     """
-    pass  # delete this line and replace with your code here
+    names = process_file('babynames/yob'+str(year)+'.txt')
+    totalbirth=total_births(year)
+    for i in names:
+        if name==i[0] and gender==i[1]:
+            return (int(i[2])/totalbirth)
+        else:
+            return 0
 
 
 def highest_year(name, gender):
@@ -42,7 +61,12 @@ def highest_year(name, gender):
     :param gender: a string, "F" or "M"
     :return: an integer, the year when the given name has the highest proportion over the years (among all the proportions of the same name in different years)
     """
-    pass  # delete this line and replace with your code here
+    high_year=0
+    high_proportion=0
+    for year in list(range(1880,2012)):
+        if proportion(name, gender, year) > high_proportion:
+            high_year = year
+            high_proportion = proportion(name, gender, year)
 
 
 def main():

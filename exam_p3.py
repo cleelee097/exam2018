@@ -2,12 +2,14 @@ class Employee:
     """
     the base class
     """
-
+    nextIdNum=0
     def __init__(self, name):
-        pass  # delete this line and replace with your code here
+        self.name=name
+        self.id = Employee.nextIdNum
+        Employee.nextIdNum += 1
 
     def get_name(self):
-        pass  # delete this line and replace with your code here
+        return self.name
 
     def weekly_pay(self, hours_worked):
         return 0
@@ -16,19 +18,32 @@ class Employee:
 class Nonexempt_Employee(Employee):
 
     def __init__(self, name, hourly_rate):
-        pass  # delete this line and replace with your code here
-
-    # Overrides the superclass method.
+        Employee.__init__(self, name)
+        self.hourly_rate = hourly_rate
     def weekly_pay(self, hours_worked):
-        pass  # delete this line and replace with your code here
+        self.weekly_compensation = hours_worked * self.hourly_rate + (hours_worked - 40) * (1.5)*(self.hourly_rate) if hours_worked > 40 
+        else hours_worked * self.hourly_rate
+        return self.weekly_compensation
 
 
 class Exempt_Employee(Employee):
-    pass  # delete this line and replace with your code here
 
+    def __init__(self, name, annual_salary):
+        Employee.__init__(self, name)
+        self.annual_salary = annual_salary
+
+    def weekly_pay(self, hours_worked):
+        self.weekly_compensation = (self.annual_salary)/(52.0)
+        return self.weekly_compensation
 
 class Manager(Exempt_Employee):
-    pass  # delete this line and replace with your code here
+    def __init__(self, name, annual_salary, bonus):
+        Exempt_Employee.__init__(self, name, annual_salary)
+        self.bonus = bonus
+    
+    def weekly_pay(self, hours_worked):
+        self.weekly_wage = (self.annual_salary + self.bonus)/(52.0)
+        return self.weekly_wage
 
 
 def main():
